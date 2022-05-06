@@ -1,6 +1,7 @@
 # Module Imports
 import mariadb
 import sys
+import json
 
 # Connect to MariaDB Platform
 try:
@@ -9,7 +10,7 @@ try:
         password="1234",
         host="127.0.0.1",
         port=3306,
-        database="test"
+        database="pokedex"
 
     )
 except mariadb.Error as e:
@@ -29,9 +30,30 @@ cur = conn.cursor()
 # conn.commit()
 # cur.execute("INSERT INTO persons (PersonID, LastName, FirstName, Address, City) VALUES ('1', 'HEFEL', 'NICK', 'lol', 'ED');")
 
-cur.execute("""SELECT * FROM Persons;""")
+cur.execute("""select  *
+from pokemonstats p
+    inner join regionfound r
+    on  p.PKMN_ID = r.PKMN_ID
+    inner join pokemoninfo pin
+    on p.PKMN_ID = pin.PKMN_ID 
+    inner join evolutions e 
+    on p.PKMN_ID = e.PKMN_ID 
+    inner join pokemonstats ps
+    on p.PKMN_ID = ps.PKMN_ID
+    inner join typechart tc
+    on p.PKMN_ID = tc.PKMN_ID
+    inner join pokemonweight pw
+    on p.PKMN_ID = pw.PKMN_ID
+    where p.PKMN_ID = 5;""")
 
-for x in cur:
-    print(f"{x}")
+row_headers=[x[0] for x in cur.description]
+rv = cur.fetchall()
+json_data = []
+for result in rv:
+    json_data.append(dict(zip(row_headers,result)))
+
+print(json_data)
+# for x in cur:
+#     print(f"{x}")
 conn.commit()
 conn.close()
