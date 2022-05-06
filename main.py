@@ -1,6 +1,7 @@
 from asyncio.windows_events import NULL
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QTextEdit, QDialog, QLineEdit, QTableWidgetItem
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 from UI.mainWindow import Ui_MainWindow as mw
 from UI.pokemonPopup import Ui_Dialog as pp
@@ -13,11 +14,46 @@ class mainWindowEvents(QMainWindow):
         self.ui = mw()
         self.ui.setupUi(MainWindow)
         self.cur = cur
+        self.ui.searchResultsTableWidget.verticalHeader().setVisible(False)
+        self.ui.searchResultsTableWidget.horizontalHeader().setVisible(False)
         self.ui.pushButton.clicked.connect(self.search)
         self.ui.pushButton_2.clicked.connect(self.random)
+        self.ui.searchResultsTableWidget.cellClicked.connect(self.searchCellClicked)
+
+    def searchCellClicked(self, row, col):
+        item = self.ui.searchResultsTableWidget.item(row, col)
+        pkmn_id = self.ui.searchResultsTableWidget.item(row, 0).text()
+        executeString = f"""
+select p.PKMN_ID, p.PKMN_NAME, t.PKMN_TYPE1, t.PKMN_TYPE2, ps.STATS_TOTAL, ps.STATS_HP, ps.STATS_ATTACK, ps.STATS_DEFENSE, ps.STATS_SP_ATTACK, ps.STATS_SP_DEFENSE, ps.STATS_SPEED, pw.PKMN_WEIGHT, r.PKMN_REGION, e.EVOLUTION_ID, e.EVOLVING_ID
+from pokemoninfo as p
+join pokemonstats as ps on p.PKMN_ID = ps.PKMN_ID
+join pokemonweight as pw on p.PKMN_ID = pw.PKMN_ID
+join regionfound as r on p.PKMN_ID = r.PKMN_ID
+join evolutions as e on p.PKMN_ID = e.PKMN_ID
+join typechart as t on p.PKMN_ID = t.PKMN_ID
+where (p.PKMN_ID = {pkmn_id})"""
+
+        self.cur.execute(executeString)
+        data = self.getQuery()
+
+        pokemonPopup = pp()
+        dialog = QDialog(self)
+        pokemonPopup.setupUi(dialog)
+        dialog.show()
+
+        pokemonPopup.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
+        pokemonPopup.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
+        pokemonPopup.idLabel.setText("#" + str(data[0]["PKMN_ID"]))
+        pokemonPopup.attackLabel.setText(str(data[0]["STATS_ATTACK"]))
+        pokemonPopup.hpLabel.setText(str(data[0]["STATS_HP"]))
+        pokemonPopup.defenseLabel.setText(str(data[0]["STATS_DEFENSE"]))
+        pokemonPopup.specialAttackLabel.setText(str(data[0]["STATS_SP_ATTACK"]))
+        pokemonPopup.specialDefenseLabel.setText(str(data[0]["STATS_SP_DEFENSE"]))
+        pokemonPopup.speedLabel.setText(str(data[0]["STATS_SPEED"]))
+        pokemonPopup.totalLabel.setText(str(data[0]["STATS_TOTAL"]))
 
     def search(self):
-        print("search")
+        #print("search")
         pkmn_id = self.ui.idSearchLineEdit.text()
         pkmn_name = self.ui.nameSearchLineEdit.text()
         if pkmn_name == '':
@@ -26,7 +62,7 @@ class mainWindowEvents(QMainWindow):
             pkmn_id = '\'\' or 1 = 1'
         pkmn_id += ")"
         pkmn_name += ")"
-        print(pkmn_name, pkmn_id)
+        #print(pkmn_name, pkmn_id)
 
         statOrder = self.getStatOrder()
         statCondition = self.getStatCondition()
@@ -34,7 +70,7 @@ class mainWindowEvents(QMainWindow):
         regionCondition = self.getRegionCondition()
 
         executeString = f"""
-select p.PKMN_ID, p.PKMN_NAME, t.PKMN_TYPE1, t.PKMN_TYPE2, ps.STATS_TOTAL, ps.STATS_HP, ps.STATS_ATTACK, ps.STATS_DEFENSE, ps.STATS_SP_ATTACK, ps.STATS_SP_DEFENSE, ps.STATS_SPEED, pw.PKMN_WEIGHT, r.PKMN_REGION, e.EVOLUTION_ID, e.EVOLVING_ID
+select p.PKMN_ID, p.PKMN_NAME
 from pokemoninfo as p
 join pokemonstats as ps on p.PKMN_ID = ps.PKMN_ID
 join pokemonweight as pw on p.PKMN_ID = pw.PKMN_ID
@@ -72,13 +108,11 @@ and {regionCondition}"""
     def getQuery(self):
         row_headers=[x[0] for x in cur.description]
         rv = self.cur.fetchall()
-        # print(rv)
-        # json_data = []
-        # for result in rv:
-        #     json_data.append(dict(zip(row_headers,result)))
-        # print(json_data)
-        # return json_data
-        return rv
+        json_data = []
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        print(json_data)
+        return json_data
 
     def getRegionCondition(self):
         regionCondition = "("

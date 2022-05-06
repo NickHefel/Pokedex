@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\mainWindow.ui'
+# Form implementation generated from reading ui file '.\UI\mainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -92,7 +92,7 @@ class Ui_MainWindow(object):
         self.regionScrollArea.setWidgetResizable(True)
         self.regionScrollArea.setObjectName("regionScrollArea")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, -129, 142, 228))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 142, 228))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
@@ -131,11 +131,11 @@ class Ui_MainWindow(object):
         self.label_4.setGeometry(QtCore.QRect(520, 30, 131, 16))
         self.label_4.setObjectName("label_4")
         self.statScrollArea = QtWidgets.QScrollArea(self.centralwidget)
-        self.statScrollArea.setGeometry(QtCore.QRect(100, 200, 431, 101))
+        self.statScrollArea.setGeometry(QtCore.QRect(100, 200, 431, 121))
         self.statScrollArea.setWidgetResizable(True)
         self.statScrollArea.setObjectName("statScrollArea")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, -63, 412, 162))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 412, 162))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_4)
         self.gridLayout_3.setObjectName("gridLayout_3")
@@ -213,13 +213,12 @@ class Ui_MainWindow(object):
         self.pushButton.setGeometry(QtCore.QRect(570, 200, 111, 41))
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(570, 260, 111, 41))
+        self.pushButton_2.setGeometry(QtCore.QRect(570, 280, 111, 41))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.searchResultsTableView = QtWidgets.QTableView(self.centralwidget)
-        self.searchResultsTableView.setGeometry(QtCore.QRect(100, 320, 581, 241))
-        self.searchResultsTableView.setObjectName("searchResultsTableView")
         self.searchResultsTableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.searchResultsTableWidget.setGeometry(QtCore.QRect(100, 320, 581, 241))
+        self.searchResultsTableWidget.setEnabled(True)
+        self.searchResultsTableWidget.setGeometry(QtCore.QRect(100, 330, 581, 241))
+        self.searchResultsTableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.searchResultsTableWidget.setObjectName("searchResultsTableWidget")
         self.searchResultsTableWidget.setColumnCount(0)
         self.searchResultsTableWidget.setRowCount(0)

@@ -207,7 +207,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>-129</y>
+       <y>0</y>
        <width>142</width>
        <height>228</height>
       </rect>
@@ -311,7 +311,7 @@
       <x>100</x>
       <y>200</y>
       <width>431</width>
-      <height>101</height>
+      <height>121</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -321,7 +321,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>-63</y>
+       <y>0</y>
        <width>412</width>
        <height>162</height>
       </rect>
@@ -484,7 +484,7 @@
     <property name="geometry">
      <rect>
       <x>570</x>
-      <y>260</y>
+      <y>280</y>
       <width>111</width>
       <height>41</height>
      </rect>
@@ -493,24 +493,20 @@
      <string>Random</string>
     </property>
    </widget>
-   <widget class="QTableView" name="searchResultsTableView">
+   <widget class="QTableWidget" name="searchResultsTableWidget">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>320</y>
+      <y>330</y>
       <width>581</width>
       <height>241</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QTableWidget" name="searchResultsTableWidget">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>320</y>
-      <width>581</width>
-      <height>241</height>
-     </rect>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
     </property>
    </widget>
   </widget>
