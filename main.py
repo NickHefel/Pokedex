@@ -239,13 +239,6 @@ and {regionCondition}"""
         else:
             return statCondition[0:-5] + ")"
 
-class pokemonPopUpEvents(QDialog):
-    def __init__(self):
-        super().__init__()
-        self.ui = pp()
-        self.ui.setupUi(self)
-
-
 class TableModel(QtCore.QAbstractTableModel):
     def __init__(self, data):
         super(TableModel, self).__init__()
