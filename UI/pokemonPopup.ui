@@ -16,7 +16,7 @@
   <widget class="QLabel" name="pokemonNameLabel">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>100</x>
      <y>10</y>
      <width>201</width>
      <height>31</height>
@@ -32,10 +32,10 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>80</y>
+     <x>10</x>
+     <y>70</y>
      <width>141</width>
-     <height>156</height>
+     <height>196</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
@@ -43,13 +43,6 @@
      <widget class="QLabel" name="label_8">
       <property name="text">
        <string>Total:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLabel" name="specialDefenseLabel">
-      <property name="text">
-       <string>TextLabel</string>
       </property>
      </widget>
     </item>
@@ -74,38 +67,10 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLabel" name="attackLabel">
-      <property name="text">
-       <string>TextLabel</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QLabel" name="totalLabel">
-      <property name="text">
-       <string>TextLabel</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
        <string>HP:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLabel" name="specialAttackLabel">
-      <property name="text">
-       <string>TextLabel</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="hpLabel">
-      <property name="text">
-       <string>TextLabel</string>
       </property>
      </widget>
     </item>
@@ -123,20 +88,6 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QLabel" name="defenseLabel">
-      <property name="text">
-       <string>TextLabel</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLabel" name="speedLabel">
-      <property name="text">
-       <string>TextLabel</string>
-      </property>
-     </widget>
-    </item>
     <item row="7" column="0">
      <widget class="QLabel" name="label_11">
       <property name="text">
@@ -144,20 +95,37 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="hpLabel"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="attackLabel"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="defenseLabel"/>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="specialAttackLabel"/>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="specialDefenseLabel"/>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLineEdit" name="speedLabel"/>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLineEdit" name="totalLabel"/>
+    </item>
     <item row="7" column="1">
-     <widget class="QLabel" name="weightLabel">
-      <property name="text">
-       <string>TextLabel</string>
-      </property>
-     </widget>
+     <widget class="QLineEdit" name="weightLabel"/>
     </item>
    </layout>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>60</y>
+     <x>10</x>
+     <y>50</y>
      <width>47</width>
      <height>14</height>
     </rect>
@@ -186,7 +154,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>320</y>
+     <y>330</y>
      <width>91</width>
      <height>16</height>
     </rect>
@@ -199,7 +167,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>250</y>
+     <y>270</y>
      <width>91</width>
      <height>16</height>
     </rect>
@@ -214,7 +182,7 @@
      <x>190</x>
      <y>70</y>
      <width>191</width>
-     <height>131</height>
+     <height>171</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -227,8 +195,8 @@
   <widget class="QLabel" name="label_12">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>270</y>
+     <x>160</x>
+     <y>260</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -240,8 +208,8 @@
   <widget class="QLabel" name="label_13">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>240</y>
+     <x>280</x>
+     <y>260</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -253,10 +221,10 @@
   <widget class="QLabel" name="evolvesFromPictureLabel">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>290</y>
-     <width>101</width>
-     <height>91</height>
+     <x>280</x>
+     <y>280</y>
+     <width>111</width>
+     <height>111</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -269,10 +237,10 @@
   <widget class="QLabel" name="evolvesToPictureLabel">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>260</y>
-     <width>121</width>
-     <height>121</height>
+     <x>160</x>
+     <y>280</y>
+     <width>111</width>
+     <height>111</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -295,23 +263,56 @@
     <string>Create</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="regionFoundListWidget">
+  <widget class="QPushButton" name="updateButton">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>10</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Update</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="type1LineEdit">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>340</y>
-     <width>111</width>
-     <height>41</height>
+     <y>290</y>
+     <width>113</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>
-  <widget class="QListWidget" name="typeListWidget">
+  <widget class="QLineEdit" name="type2LineEdit">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>270</y>
-     <width>111</width>
-     <height>41</height>
+     <y>310</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="regionLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>350</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="region2LineEdit">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>370</y>
+     <width>113</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>
