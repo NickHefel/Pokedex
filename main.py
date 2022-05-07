@@ -80,6 +80,12 @@ where (p.PKMN_ID = {pkmn_id})"""
         pokemonPopup.totalLabel.setText(str(data[0]["STATS_TOTAL"]))
         pokemonPopup.weightLabel.setText(str(data[0]["PKMN_WEIGHT"]))
 
+        if data[0]['PKMN_TYPE1'] != 'NULL':
+            pokemonPopup.typeListWidget.addItem(data[0]['PKMN_TYPE1'])
+        if data[0]['PKMN_TYPE2'] != 'NULL':
+            pokemonPopup.typeListWidget.addItem(data[0]['PKMN_TYPE2'])
+        pokemonPopup.regionFoundListWidget.addItem(data[0]['PKMN_REGION'])
+
     def search(self):
         #print("search")
         pkmn_id = self.ui.idSearchLineEdit.text()
