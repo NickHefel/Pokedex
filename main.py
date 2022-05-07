@@ -55,7 +55,8 @@ where (p.PKMN_ID = {pkmn_id})"""
     def search(self):
         #print("search")
         pkmn_id = self.ui.idSearchLineEdit.text()
-        pkmn_name = self.ui.nameSearchLineEdit.text()
+        pkmn_name = '\'' + str(self.ui.nameSearchLineEdit.text()) + '\''
+        #print(pkmn_name)
         if pkmn_name == '':
             pkmn_name = '\'\' or 1 = 1'
         if pkmn_id == '':
@@ -85,7 +86,7 @@ and {regionCondition}"""
 
         executeString += statOrder
         #print(executeString)
-
+        print(executeString)
         self.cur.execute(executeString)
         result = self.cur.fetchall()
         #data = self.getQuery()
