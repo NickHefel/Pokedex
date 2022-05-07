@@ -13,22 +13,6 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="pokemonNameLabel">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>10</y>
-     <width>201</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;PokemonNameHere&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
@@ -132,22 +116,6 @@
    </property>
    <property name="text">
     <string>Stats</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="idLabel">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>40</y>
-     <width>81</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PokemonIDHere</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_9">
@@ -314,6 +282,52 @@
      <width>113</width>
      <height>20</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="idLabel">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>40</y>
+     <width>41</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="pokemonNameLabel">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>10</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>10</y>
+     <width>47</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Name:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_15">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>40</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ID:</string>
    </property>
   </widget>
  </widget>

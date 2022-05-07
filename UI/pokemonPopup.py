@@ -15,10 +15,6 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(400, 400)
-        self.pokemonNameLabel = QtWidgets.QLabel(Dialog)
-        self.pokemonNameLabel.setGeometry(QtCore.QRect(100, 10, 201, 31))
-        self.pokemonNameLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.pokemonNameLabel.setObjectName("pokemonNameLabel")
         self.gridLayoutWidget = QtWidgets.QWidget(Dialog)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 70, 141, 196))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
@@ -76,10 +72,6 @@ class Ui_Dialog(object):
         self.label_2 = QtWidgets.QLabel(Dialog)
         self.label_2.setGeometry(QtCore.QRect(10, 50, 47, 14))
         self.label_2.setObjectName("label_2")
-        self.idLabel = QtWidgets.QLabel(Dialog)
-        self.idLabel.setGeometry(QtCore.QRect(160, 40, 81, 16))
-        self.idLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.idLabel.setObjectName("idLabel")
         self.label_9 = QtWidgets.QLabel(Dialog)
         self.label_9.setGeometry(QtCore.QRect(20, 330, 91, 16))
         self.label_9.setObjectName("label_9")
@@ -122,6 +114,18 @@ class Ui_Dialog(object):
         self.region2LineEdit = QtWidgets.QLineEdit(Dialog)
         self.region2LineEdit.setGeometry(QtCore.QRect(20, 370, 113, 20))
         self.region2LineEdit.setObjectName("region2LineEdit")
+        self.idLabel = QtWidgets.QLineEdit(Dialog)
+        self.idLabel.setGeometry(QtCore.QRect(150, 40, 41, 20))
+        self.idLabel.setObjectName("idLabel")
+        self.pokemonNameLabel = QtWidgets.QLineEdit(Dialog)
+        self.pokemonNameLabel.setGeometry(QtCore.QRect(150, 10, 141, 20))
+        self.pokemonNameLabel.setObjectName("pokemonNameLabel")
+        self.label_14 = QtWidgets.QLabel(Dialog)
+        self.label_14.setGeometry(QtCore.QRect(110, 10, 47, 14))
+        self.label_14.setObjectName("label_14")
+        self.label_15 = QtWidgets.QLabel(Dialog)
+        self.label_15.setGeometry(QtCore.QRect(130, 40, 21, 16))
+        self.label_15.setObjectName("label_15")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -129,7 +133,6 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.pokemonNameLabel.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:16pt;\">PokemonNameHere</span></p></body></html>"))
         self.label_8.setText(_translate("Dialog", "Total:"))
         self.label_7.setText(_translate("Dialog", "Speed:"))
         self.label_3.setText(_translate("Dialog", "Attack:"))
@@ -139,7 +142,6 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "Defense:"))
         self.label_11.setText(_translate("Dialog", "Weight"))
         self.label_2.setText(_translate("Dialog", "Stats"))
-        self.idLabel.setText(_translate("Dialog", "PokemonIDHere"))
         self.label_9.setText(_translate("Dialog", "Region(s) found:"))
         self.label_10.setText(_translate("Dialog", "Type(s)"))
         self.pokemonPictureLabel.setText(_translate("Dialog", "Pokemon Picture here"))
@@ -149,6 +151,8 @@ class Ui_Dialog(object):
         self.evolvesToPictureLabel.setText(_translate("Dialog", "Pokemon Picture here"))
         self.createButton.setText(_translate("Dialog", "Create"))
         self.updateButton.setText(_translate("Dialog", "Update"))
+        self.label_14.setText(_translate("Dialog", "Name:"))
+        self.label_15.setText(_translate("Dialog", "ID:"))
 
 
 if __name__ == "__main__":
