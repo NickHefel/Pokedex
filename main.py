@@ -23,7 +23,7 @@ class pokemonPopupEvents(QDialog):
         self.ui.createButton.clicked.connect(self.create)
         self.ui.updateButton.clicked.connect(self.update)
 
-    def create():
+    def create(self):
         #TODO
         return
 
@@ -51,6 +51,9 @@ class mainWindowEvents(QMainWindow):
 
     def create(self):
         #TODO
+        dialog = QDialog(self)
+        pokemonPopup = pokemonPopupEvents(dialog, self.cur)
+        dialog.show()
         return
 
     def searchCellClicked(self, row, col):
@@ -84,13 +87,24 @@ where (p.PKMN_ID = {pkmn_id})"""
         self.cur.execute(executeString2)
         evolutions = self.getQuery()
 
-        print(evolutions[0]['EVOLUTION_ID'])
+        print(evolutions[0]['EVOLUTION_ID']) #can remove when done testing
 
         if evolutions[0]['EVOLUTION_ID'] is not None:
-            executeString3 = f"select PKMN_ID from evolutions where EVOLUTION_ID = {evolutions[0]['EVOLUTION_ID']}"
+            executeString3 = f"select PKMN_ID from evolutions where EVOLUTION_ID = {evolutions[0]['EVOLUTION_ID']} order by PKMN_ID"
             self.cur.execute(executeString3)
             order = self.getQuery()
-            print(order)
+            print(order) #Can remove when done testing
+
+        print(order[0]["PKMN_ID"])
+        print(data[0]["PKMN_ID"])
+
+        if order[0]['PKMN_ID'] == data[0]["PKMN_ID"]:
+            download = "black screen"
+            url_image = webScraper(download)
+            image = QImage()
+            image.loadFromData(requests.get(url_image).content)
+            pokemonPopup.ui.evolvesToPictureLabel.setAlignment(Qt.AlignCenter)
+            pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
 
 
@@ -315,6 +329,7 @@ def webScraper(download):
 def getdata(url):
     r = requests.get(url)
     return r.text
+def insertPokemon():
 
 
 def initUI(cur):
