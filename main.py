@@ -1,3 +1,5 @@
+from selenium import webdriver
+from bs4 import BeautifulSoup
 from asyncio.windows_events import NULL
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QTextEdit, QDialog, QLineEdit, QTableWidgetItem
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -6,6 +8,10 @@ from PyQt5.QtCore import Qt
 from UI.mainWindow import Ui_MainWindow as mw
 from UI.pokemonPopup import Ui_Dialog as pp
 import sys
+import requests
+import urllib.request
+import time
+import os
 import mariadb
 
 class mainWindowEvents(QMainWindow):
@@ -40,6 +46,22 @@ where (p.PKMN_ID = {pkmn_id})"""
         dialog = QDialog(self)
         pokemonPopup.setupUi(dialog)
         dialog.show()
+
+        download = str(data[0]["PKMN_NAME"])
+        site = 'https://www.google.com/search?tbm=isch&q=' + download
+
+        htmldata = getdata(site)
+        soup = BeautifulSoup(htmldata, 'html.parser')
+        List = []
+        for item in soup.find_all('img'):
+            List.append(item['src'])
+
+        url_image = List[1]
+
+        image = QImage()
+        image.loadFromData(requests.get(url_image).content)
+
+        pokemonPopup.pokemonPictureLabel.evolvesToPictureLabel.setStyleSheet(f"background-image : url{url_image};border : 2px solid blue")
 
         pokemonPopup.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
         pokemonPopup.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
