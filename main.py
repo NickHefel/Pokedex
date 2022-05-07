@@ -47,6 +47,10 @@ where (p.PKMN_ID = {pkmn_id})"""
         pokemonPopup.setupUi(dialog)
         dialog.show()
 
+        def getdata(url):
+            r = requests.get(url)
+            return r.text
+
         download = str(data[0]["PKMN_NAME"])
         site = 'https://www.google.com/search?tbm=isch&q=' + download
 
