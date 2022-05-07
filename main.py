@@ -73,26 +73,26 @@ where (p.PKMN_ID = {pkmn_id})"""
         pokemonPopup = pokemonPopupEvents(dialog, self.cur)
         dialog.show()
 
-        def getdata(url):
-            r = requests.get(url)
-            return r.text
-
         download = str(data[0]["PKMN_NAME"])
-        site = 'https://www.google.com/search?tbm=isch&q=' + download
-
-        htmldata = getdata(site)
-        soup = BeautifulSoup(htmldata, 'html.parser')
-        List = []
-        for item in soup.find_all('img'):
-            List.append(item['src'])
-
-        url_image = List[1]
+        url_image = webScraper(download)
 
         image = QImage()
         image.loadFromData(requests.get(url_image).content)
-
-        #pokemonPopup.ui.pokemonPictureLabel.setStyleSheet(f"background-image : url{url_image};border : 2px solid blue")
+        pokemonPopup.ui.pokemonPictureLabel.setAlignment(Qt.AlignCenter)
         pokemonPopup.ui.pokemonPictureLabel.setPixmap(QPixmap(image))
+        executeString2 = f"select EVOLUTION_ID from evolutions where (PKMN_ID = {pkmn_id});"
+        self.cur.execute(executeString2)
+        evolutions = self.getQuery()
+
+        print(evolutions[0]['EVOLUTION_ID'])
+
+        if evolutions[0]['EVOLUTION_ID'] is not None:
+            executeString3 = f"select PKMN_ID from evolutions where EVOLUTION_ID = {evolutions[0]['EVOLUTION_ID']}"
+            self.cur.execute(executeString3)
+            order = self.getQuery()
+            print(order)
+
+
 
         pokemonPopup.ui.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
         pokemonPopup.ui.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
@@ -299,6 +299,24 @@ and {regionCondition}"""
         else:
             return statCondition[0:-5] + ")"
 
+def webScraper(download):
+    site = 'https://www.google.com/search?tbm=isch&q=' + download
+
+    htmldata = getdata(site)
+    soup = BeautifulSoup(htmldata, 'html.parser')
+    List = []
+    for item in soup.find_all('img'):
+        List.append(item['src'])
+
+    url_image = List[1]
+    return url_image
+
+
+def getdata(url):
+    r = requests.get(url)
+    return r.text
+
+
 def initUI(cur):
     app = QApplication(sys.argv)
     MainWindow = QMainWindow()
@@ -310,7 +328,7 @@ def initDB():
     try:
         conn = mariadb.connect(
             user="root",
-            password="1234",
+            password="Jiddo123",
             host="127.0.0.1",
             port=3306,
             database="pokedex"
