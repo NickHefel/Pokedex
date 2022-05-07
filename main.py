@@ -1,9 +1,9 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from asyncio.windows_events import NULL
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QTextEdit, QDialog, QLineEdit, QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QTextEdit, QDialog, QLineEdit, QTableWidgetItem, QLabel
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QFont, QImage
+from PyQt5.QtGui import QFont, QImage, QPixmap
 from PyQt5.QtCore import Qt
 from UI.mainWindow import Ui_MainWindow as mw
 from UI.pokemonPopup import Ui_Dialog as pp
@@ -65,7 +65,8 @@ where (p.PKMN_ID = {pkmn_id})"""
         image = QImage()
         image.loadFromData(requests.get(url_image).content)
 
-        pokemonPopup.pokemonPictureLabel.evolvesToPictureLabel.setStyleSheet(f"background-image : url{url_image};border : 2px solid blue")
+        #pokemonPopup.pokemonPictureLabel.setStyleSheet(f"background-image : url{url_image};border : 2px solid blue")
+        pokemonPopup.pokemonPictureLabel.setPixmap(QPixmap(image))
 
         pokemonPopup.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
         pokemonPopup.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
@@ -77,6 +78,7 @@ where (p.PKMN_ID = {pkmn_id})"""
         pokemonPopup.specialDefenseLabel.setText(str(data[0]["STATS_SP_DEFENSE"]))
         pokemonPopup.speedLabel.setText(str(data[0]["STATS_SPEED"]))
         pokemonPopup.totalLabel.setText(str(data[0]["STATS_TOTAL"]))
+        pokemonPopup.weightLabel.setText(str(data[0]["PKMN_WEIGHT"]))
 
     def search(self):
         #print("search")
