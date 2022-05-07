@@ -471,7 +471,7 @@
     <property name="geometry">
      <rect>
       <x>570</x>
-      <y>200</y>
+      <y>180</y>
       <width>111</width>
       <height>41</height>
      </rect>
@@ -480,17 +480,17 @@
      <string>Search</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="createButton">
     <property name="geometry">
      <rect>
       <x>570</x>
-      <y>280</y>
+      <y>230</y>
       <width>111</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Random</string>
+     <string>Create</string>
     </property>
    </widget>
    <widget class="QTableWidget" name="searchResultsTableWidget">
@@ -507,6 +507,19 @@
     </property>
     <property name="editTriggers">
      <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="deleteButton">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>280</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete</string>
     </property>
    </widget>
   </widget>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\UI\mainWindow.ui'
+# Form implementation generated from reading ui file 'mainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -210,11 +210,11 @@ class Ui_MainWindow(object):
         self.label_7.setGeometry(QtCore.QRect(370, 180, 81, 20))
         self.label_7.setObjectName("label_7")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(570, 200, 111, 41))
+        self.pushButton.setGeometry(QtCore.QRect(570, 180, 111, 41))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(570, 280, 111, 41))
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.createButton = QtWidgets.QPushButton(self.centralwidget)
+        self.createButton.setGeometry(QtCore.QRect(570, 230, 111, 41))
+        self.createButton.setObjectName("createButton")
         self.searchResultsTableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.searchResultsTableWidget.setEnabled(True)
         self.searchResultsTableWidget.setGeometry(QtCore.QRect(100, 330, 581, 241))
@@ -222,6 +222,9 @@ class Ui_MainWindow(object):
         self.searchResultsTableWidget.setObjectName("searchResultsTableWidget")
         self.searchResultsTableWidget.setColumnCount(0)
         self.searchResultsTableWidget.setRowCount(0)
+        self.deleteButton = QtWidgets.QPushButton(self.centralwidget)
+        self.deleteButton.setGeometry(QtCore.QRect(570, 280, 111, 41))
+        self.deleteButton.setObjectName("deleteButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -274,7 +277,8 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "Min:"))
         self.label_7.setText(_translate("MainWindow", "Max:"))
         self.pushButton.setText(_translate("MainWindow", "Search"))
-        self.pushButton_2.setText(_translate("MainWindow", "Random"))
+        self.createButton.setText(_translate("MainWindow", "Create"))
+        self.deleteButton.setText(_translate("MainWindow", "Delete"))
 
 
 if __name__ == "__main__":

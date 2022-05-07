@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from asyncio.windows_events import NULL
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QTextEdit, QDialog, QLineEdit, QTableWidgetItem
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QImage
 from PyQt5.QtCore import Qt
 from UI.mainWindow import Ui_MainWindow as mw
 from UI.pokemonPopup import Ui_Dialog as pp
@@ -23,7 +23,7 @@ class mainWindowEvents(QMainWindow):
         self.ui.searchResultsTableWidget.verticalHeader().setVisible(False)
         self.ui.searchResultsTableWidget.horizontalHeader().setVisible(False)
         self.ui.pushButton.clicked.connect(self.search)
-        self.ui.pushButton_2.clicked.connect(self.random)
+        # self.ui.pushButton_2.clicked.connect(self.random)
         self.ui.searchResultsTableWidget.cellClicked.connect(self.searchCellClicked)
 
     def searchCellClicked(self, row, col):
@@ -129,8 +129,8 @@ and {regionCondition}"""
                     self.ui.searchResultsTableWidget.insertColumn(column_number)
                 self.ui.searchResultsTableWidget.setItem(row_number,
                     column_number, QTableWidgetItem(str(data)))
-    def random(self):
-        print("random")
+    # def random(self):
+    #     print("random")
 
     def getQuery(self):
         row_headers=[x[0] for x in cur.description]
