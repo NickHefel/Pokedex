@@ -14,6 +14,24 @@ import time
 import os
 import mariadb
 
+class pokemonPopupEvents(QDialog):
+    def __init__(self, Dialog, cur):
+        super().__init__()
+        self.ui = pp()
+        self.ui.setupUi(Dialog)
+        self.cur = cur
+        self.ui.createButton.clicked.connect(self.create)
+        self.ui.updateButton.clicked.connect(self.update)
+
+    def create():
+        #TODO
+        return
+
+    def update():
+        #TODO
+        return
+
+
 class mainWindowEvents(QMainWindow):
     def __init__(self, MainWindow, cur):
         super().__init__()
@@ -23,8 +41,17 @@ class mainWindowEvents(QMainWindow):
         self.ui.searchResultsTableWidget.verticalHeader().setVisible(False)
         self.ui.searchResultsTableWidget.horizontalHeader().setVisible(False)
         self.ui.pushButton.clicked.connect(self.search)
-        # self.ui.pushButton_2.clicked.connect(self.random)
+        self.ui.createButton.clicked.connect(self.create)
+        self.ui.deleteButton.clicked.connect(self.delete)
         self.ui.searchResultsTableWidget.cellClicked.connect(self.searchCellClicked)
+
+    def delete(self):
+        #TODO
+        return
+
+    def create(self):
+        #TODO
+        return
 
     def searchCellClicked(self, row, col):
         item = self.ui.searchResultsTableWidget.item(row, col)
@@ -42,9 +69,8 @@ where (p.PKMN_ID = {pkmn_id})"""
         self.cur.execute(executeString)
         data = self.getQuery()
 
-        pokemonPopup = pp()
         dialog = QDialog(self)
-        pokemonPopup.setupUi(dialog)
+        pokemonPopup = pokemonPopupEvents(dialog, self.cur)
         dialog.show()
 
         def getdata(url):
@@ -65,26 +91,26 @@ where (p.PKMN_ID = {pkmn_id})"""
         image = QImage()
         image.loadFromData(requests.get(url_image).content)
 
-        #pokemonPopup.pokemonPictureLabel.setStyleSheet(f"background-image : url{url_image};border : 2px solid blue")
-        pokemonPopup.pokemonPictureLabel.setPixmap(QPixmap(image))
+        #pokemonPopup.ui.pokemonPictureLabel.setStyleSheet(f"background-image : url{url_image};border : 2px solid blue")
+        pokemonPopup.ui.pokemonPictureLabel.setPixmap(QPixmap(image))
 
-        pokemonPopup.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
-        pokemonPopup.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
-        pokemonPopup.idLabel.setText("#" + str(data[0]["PKMN_ID"]))
-        pokemonPopup.attackLabel.setText(str(data[0]["STATS_ATTACK"]))
-        pokemonPopup.hpLabel.setText(str(data[0]["STATS_HP"]))
-        pokemonPopup.defenseLabel.setText(str(data[0]["STATS_DEFENSE"]))
-        pokemonPopup.specialAttackLabel.setText(str(data[0]["STATS_SP_ATTACK"]))
-        pokemonPopup.specialDefenseLabel.setText(str(data[0]["STATS_SP_DEFENSE"]))
-        pokemonPopup.speedLabel.setText(str(data[0]["STATS_SPEED"]))
-        pokemonPopup.totalLabel.setText(str(data[0]["STATS_TOTAL"]))
-        pokemonPopup.weightLabel.setText(str(data[0]["PKMN_WEIGHT"]))
+        pokemonPopup.ui.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
+        pokemonPopup.ui.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
+        pokemonPopup.ui.idLabel.setText("#" + str(data[0]["PKMN_ID"]))
+        pokemonPopup.ui.attackLabel.setText(str(data[0]["STATS_ATTACK"]))
+        pokemonPopup.ui.hpLabel.setText(str(data[0]["STATS_HP"]))
+        pokemonPopup.ui.defenseLabel.setText(str(data[0]["STATS_DEFENSE"]))
+        pokemonPopup.ui.specialAttackLabel.setText(str(data[0]["STATS_SP_ATTACK"]))
+        pokemonPopup.ui.specialDefenseLabel.setText(str(data[0]["STATS_SP_DEFENSE"]))
+        pokemonPopup.ui.speedLabel.setText(str(data[0]["STATS_SPEED"]))
+        pokemonPopup.ui.totalLabel.setText(str(data[0]["STATS_TOTAL"]))
+        pokemonPopup.ui.weightLabel.setText(str(data[0]["PKMN_WEIGHT"]))
 
         if data[0]['PKMN_TYPE1'] != 'NULL':
-            pokemonPopup.type1LineEdit.setText(str(data[0]["PKMN_TYPE1"]))
+            pokemonPopup.ui.type1LineEdit.setText(str(data[0]["PKMN_TYPE1"]))
         if data[0]['PKMN_TYPE2'] != 'NULL':
-            pokemonPopup.type2LineEdit.setText(str(data[0]['PKMN_TYPE2']))
-        pokemonPopup.regionLineEdit.setText(str(data[0]['PKMN_REGION']))
+            pokemonPopup.ui.type2LineEdit.setText(str(data[0]['PKMN_TYPE2']))
+        pokemonPopup.ui.regionLineEdit.setText(str(data[0]['PKMN_REGION']))
 
     def search(self):
         #print("search")
@@ -240,33 +266,33 @@ and {regionCondition}"""
         if self.ui.grassCheckBox.isChecked():
             statCondition += "(t.PKMN_TYPE1 = \'Grass\' or t.PKMN_TYPE2 = \'Grass\') and "
         if self.ui.electricCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Electric\' or t.PKMN_TYPE2 = \'Electric\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'E111ric\' or t.PKMN_TYPE2 = \'Electric\') and "
         if self.ui.iceCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Ice\' or t.PKMN_TYPE2 = \'Ice\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'I111 or t.PKMN_TYPE2 = \'Ice\') and "
         if self.ui.fightingCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Fighting\' or t.PKMN_TYPE2 = \'Fighting\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'F111ing\' or t.PKMN_TYPE2 = \'Fighting\') and "
         if self.ui.poisonCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Poison\' or t.PKMN_TYPE2 = \'Poison\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'P111n\' or t.PKMN_TYPE2 = \'Poison\') and "
         if self.ui.groundCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Ground\' or t.PKMN_TYPE2 = \'Ground\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'G111d\' or t.PKMN_TYPE2 = \'Ground\') and "
         if self.ui.flyingCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Flying\' or t.PKMN_TYPE2 = \'Flying\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'F111g\' or t.PKMN_TYPE2 = \'Flying\') and "
         if self.ui.psychicCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Psychic\' or t.PKMN_TYPE2 = \'Psychic\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'P111ic\' or t.PKMN_TYPE2 = \'Psychic\') and "
         if self.ui.bugCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Bug\' or t.PKMN_TYPE2 = \'Bug\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'B111 or t.PKMN_TYPE2 = \'Bug\') and "
         if self.ui.rockCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Rock\' or t.PKMN_TYPE2 = \'Rock\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'R111' or t.PKMN_TYPE2 = \'Rock\') and "
         if self.ui.ghostCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Ghost\' or t.PKMN_TYPE2 = \'Ghost\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'G111\' or t.PKMN_TYPE2 = \'Ghost\') and "
         if self.ui.darkCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Dark\' or t.PKMN_TYPE2 = \'Dark\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'D111' or t.PKMN_TYPE2 = \'Dark\') and "
         if self.ui.dragonCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Dragon\' or t.PKMN_TYPE2 = \'Dragon\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'D111n\' or t.PKMN_TYPE2 = \'Dragon\') and "
         if self.ui.steelCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Steel\' or t.PKMN_TYPE2 = \'Steel\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'S111\' or t.PKMN_TYPE2 = \'Steel\') and "
         if self.ui.fairyCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'Fairy\' or t.PKMN_TYPE2 = \'Fairy\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'F111\' or t.PKMN_TYPE2 = \'Fairy\') and "
 
         if len(statCondition) == 1:
             return "(1 = 1)"
