@@ -333,33 +333,33 @@ and {regionCondition}"""
         if self.ui.grassCheckBox.isChecked():
             statCondition += "(t.PKMN_TYPE1 = \'Grass\' or t.PKMN_TYPE2 = \'Grass\') and "
         if self.ui.electricCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'E111ric\' or t.PKMN_TYPE2 = \'Electric\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Electric\' or t.PKMN_TYPE2 = \'Electric\') and "
         if self.ui.iceCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'I111 or t.PKMN_TYPE2 = \'Ice\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Ice\' or t.PKMN_TYPE2 = \'Ice\') and "
         if self.ui.fightingCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'F111ing\' or t.PKMN_TYPE2 = \'Fighting\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Fighting\' or t.PKMN_TYPE2 = \'Fighting\') and "
         if self.ui.poisonCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'P111n\' or t.PKMN_TYPE2 = \'Poison\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Poison\' or t.PKMN_TYPE2 = \'Poison\') and "
         if self.ui.groundCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'G111d\' or t.PKMN_TYPE2 = \'Ground\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Ground\' or t.PKMN_TYPE2 = \'Ground\') and "
         if self.ui.flyingCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'F111g\' or t.PKMN_TYPE2 = \'Flying\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Flying\' or t.PKMN_TYPE2 = \'Flying\') and "
         if self.ui.psychicCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'P111ic\' or t.PKMN_TYPE2 = \'Psychic\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Psychic\' or t.PKMN_TYPE2 = \'Psychic\') and "
         if self.ui.bugCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'B111 or t.PKMN_TYPE2 = \'Bug\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Bug\' or t.PKMN_TYPE2 = \'Bug\') and "
         if self.ui.rockCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'R111' or t.PKMN_TYPE2 = \'Rock\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Rock\' or t.PKMN_TYPE2 = \'Rock\') and "
         if self.ui.ghostCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'G111\' or t.PKMN_TYPE2 = \'Ghost\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Ghost\' or t.PKMN_TYPE2 = \'Ghost\') and "
         if self.ui.darkCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'D111' or t.PKMN_TYPE2 = \'Dark\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Dark\' or t.PKMN_TYPE2 = \'Dark\') and "
         if self.ui.dragonCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'D111n\' or t.PKMN_TYPE2 = \'Dragon\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Dragon\' or t.PKMN_TYPE2 = \'Dragon\') and "
         if self.ui.steelCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'S111\' or t.PKMN_TYPE2 = \'Steel\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Steel\' or t.PKMN_TYPE2 = \'Steel\') and "
         if self.ui.fairyCheckBox.isChecked():
-            statCondition += "(t.PKMN_TYPE1 = \'F111\' or t.PKMN_TYPE2 = \'Fairy\') and "
+            statCondition += "(t.PKMN_TYPE1 = \'Fairy\' or t.PKMN_TYPE2 = \'Fairy\') and "
 
         if len(statCondition) == 1:
             return "(1 = 1)"
@@ -393,6 +393,13 @@ def initUI(cur):
 
 def initDB():
     try:
+        # conn = mariadb.connect(
+        #     user="root",
+        #     password="1234",
+        #     host="127.0.0.1",
+        #     port=3306,
+        #     database="pokedex"
+        # )
         conn = mariadb.connect(
             user="root",
             password="Jiddo123",
