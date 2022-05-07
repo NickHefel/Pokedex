@@ -25,9 +25,45 @@ class pokemonPopupEvents(QDialog):
 
     def create(self):
         #TODO
+        isgood = true
+
+        if(pokemonPopupEvents.ui.pokemonNameLabel.text() == "" ):
+            isgood = false
+
+        if(pokemonPopupEvents.ui.idLabel.text() == ""):
+            isgood = false
+
+        if (pokemonPopupEvents.ui.attackLabel.text() == ""):
+            isgood = false
+
+        if (pokemonPopupEvents.ui.hpLabel.text() == ""):
+            isgood = false
+
+        if (pokemonPopupEvents.ui.defenseLabel.text() == ""):
+            isgood = false
+
+        if (pokemonPopupEvents.ui.specialAttackLabel.text() == ""):
+            isgood = false
+
+        if (pokemonPopupEvents.ui.specialDefenseLabel.text() == ""):
+            isgood = false
+
+        if (pokemonPopupEvents.ui.speedLabel.text() == ""):
+            isgood = false
+
+        if (pokemonPopupEvents.ui.totalLabel.text() == ""):
+            isgood = false
+
+        if (pokemonPopupEvents.ui.weightLabel.text() == ""):
+            isgood = false
+
+        if(isgood == false):
+            print("error man")
+            # Put an error label
+
         return
 
-    def update():
+    def update(self):
         #TODO
         return
 
@@ -329,7 +365,6 @@ def webScraper(download):
 def getdata(url):
     r = requests.get(url)
     return r.text
-def insertPokemon():
 
 
 def initUI(cur):
