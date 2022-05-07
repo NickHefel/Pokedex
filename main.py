@@ -159,6 +159,14 @@ where (p.PKMN_ID = {pkmn_id})"""
             image.loadFromData(requests.get(url_image).content)
             pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
+            executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[3]['PKMN_ID']})"
+            self.cur.execute(executeString5)
+            lowerName = self.getQuery()
+            url_image = webScraper(lowerName[3]["PKMN_NAME"])
+            image = QImage()
+            image.loadFromData(requests.get(url_image).content)
+            pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
+
 
 
         pokemonPopup.ui.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
