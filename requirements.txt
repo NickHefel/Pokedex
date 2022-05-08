@@ -1,0 +1,5 @@
+selenium
+bs4
+PyQt5
+requests
+mariadb
