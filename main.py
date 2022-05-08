@@ -285,14 +285,20 @@ where (p.PKMN_ID = {pkmn_id})"""
                 image = QImage()
                 image.loadFromData(requests.get(url_image).content)
                 self.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
-
-                executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[2]['PKMN_ID']})"
-                self.cur.execute(executeString5)
-                higherName = self.getQuery()
-                url_image = webScraper(higherName[0]["PKMN_NAME"])
-                image = QImage()
-                image.loadFromData(requests.get(url_image).content)
-                self.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
+                try:
+                    executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[2]['PKMN_ID']})"
+                    self.cur.execute(executeString5)
+                    higherName = self.getQuery()
+                    url_image = webScraper(higherName[0]["PKMN_NAME"])
+                    image = QImage()
+                    image.loadFromData(requests.get(url_image).content)
+                    self.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
+                except:
+                    download = "black screen"
+                    url_image = webScraper(download)
+                    image = QImage()
+                    image.loadFromData(requests.get(url_image).content)
+                    self.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
             try:
                 if order[2]['PKMN_ID'] == data[0]["PKMN_ID"]:
                     download = "black screen"
@@ -313,6 +319,8 @@ where (p.PKMN_ID = {pkmn_id})"""
 
             except:
                 print("Error for the big pokemon")
+        else:
+
 
         self.ui.createPokemonButton.setVisible(False)
         self.ui.updateButton.setVisible(True)
