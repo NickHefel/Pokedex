@@ -420,20 +420,20 @@ def initUI(cur):
 
 def initDB():
     try:
-        conn = mariadb.connect(
-            user="root",
-            password="1234",
-            host="127.0.0.1",
-            port=3306,
-            database="pokedex"
-        )
         #conn = mariadb.connect(
         #    user="root",
-        #    password="Jiddo123",
+        #    password="1234",
         #    host="127.0.0.1",
         #    port=3306,
         #    database="pokedex"
         #)
+        conn = mariadb.connect(
+           user="root",
+           password="Jiddo123",
+           host="127.0.0.1",
+           port=3306,
+           database="pokedex"
+        )
     except mariadb.Error as e:
         print(f"Error connecting to MariaDB Platform: {e}")
         sys.exit(1)
