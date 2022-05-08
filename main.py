@@ -1,18 +1,20 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from asyncio.windows_events import NULL
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QTextEdit, QDialog, QLineEdit, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QTextEdit, QDialog, QLineEdit, QTableWidgetItem, QLabel, QErrorMessage
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QFont, QImage, QPixmap
 from PyQt5.QtCore import Qt
 from UI.mainWindow import Ui_MainWindow as mw
 from UI.pokemonPopup import Ui_Dialog as pp
+from UI.pokemonPopupMainMenu import Ui_MainWindow as ppmw
 import sys
 import requests
 import urllib.request
 import time
 import os
 import mariadb
+import PyQt5
 
 class pokemonPopupEvents(QDialog):
     def __init__(self, Dialog, cur):
@@ -20,51 +22,46 @@ class pokemonPopupEvents(QDialog):
         self.ui = pp()
         self.ui.setupUi(Dialog)
         self.cur = cur
-        self.ui.createButton.clicked.connect(self.create)
-        self.ui.updateButton.clicked.connect(self.update)
+        self.ui.createButton.clicked.connect(self.createPokemon)
+        self.ui.updateButton.clicked.connect(self.updatePokemon)
 
-    def create(self):
+    def createPokemon(self):
         #TODO
-        isgood = true
+        print("pp create")
+        isgood = True
 
-        if(pokemonPopupEvents.ui.pokemonNameLabel.text() == "" ):
-            isgood = false
-
-        if(pokemonPopupEvents.ui.idLabel.text() == ""):
-            isgood = false
-
-        if (pokemonPopupEvents.ui.attackLabel.text() == ""):
-            isgood = false
-
-        if (pokemonPopupEvents.ui.hpLabel.text() == ""):
-            isgood = false
-
-        if (pokemonPopupEvents.ui.defenseLabel.text() == ""):
-            isgood = false
-
-        if (pokemonPopupEvents.ui.specialAttackLabel.text() == ""):
-            isgood = false
-
-        if (pokemonPopupEvents.ui.specialDefenseLabel.text() == ""):
-            isgood = false
-
-        if (pokemonPopupEvents.ui.speedLabel.text() == ""):
-            isgood = false
-
-        if (pokemonPopupEvents.ui.totalLabel.text() == ""):
-            isgood = false
-
-        if (pokemonPopupEvents.ui.weightLabel.text() == ""):
-            isgood = false
-
-        if(isgood == false):
+        if(self.ui.pokemonNameLabel.text() == "" ):
+            isgood = False
+        if(self.ui.idLabel.text() == ""):
+            isgood = False
+        if (self.ui.attackLabel.text() == ""):
+            isgood = False
+        if (self.ui.hpLabel.text() == ""):
+            isgood = False
+        if (self.ui.defenseLabel.text() == ""):
+            isgood = False
+        if (self.ui.specialAttackLabel.text() == ""):
+            isgood = False
+        if (self.ui.specialDefenseLabel.text() == ""):
+            isgood = False
+        if (self.ui.speedLabel.text() == ""):
+            isgood = False
+        if (self.ui.totalLabel.text() == ""):
+            isgood = False
+        if (self.ui.weightLabel.text() == ""):
+            isgood = False
+        if(isgood == False):
             print("error man")
+            error_dialog = QtWidgets.QErrorMessage(self)
+            error_dialog.showMessage('Fill in every field')
+            error_dialog.exec_()
+            return
             # Put an error label
-
         return
 
-    def update(self):
+    def updatePokemon(self):
         #TODO
+        print("pp update")
         return
 
 
@@ -77,20 +74,21 @@ class mainWindowEvents(QMainWindow):
         self.ui.searchResultsTableWidget.verticalHeader().setVisible(False)
         self.ui.searchResultsTableWidget.horizontalHeader().setVisible(False)
         self.ui.pushButton.clicked.connect(self.search)
-        self.ui.createButton.clicked.connect(self.create)
-        self.ui.deleteButton.clicked.connect(self.delete)
+        self.ui.createButton.clicked.connect(self.createPKM)
+        self.ui.deleteButton.clicked.connect(self.deletePKM)
         self.ui.searchResultsTableWidget.cellClicked.connect(self.searchCellClicked)
 
-    def delete(self):
+    def deletePKM(self):
         #TODO
+        print("Main menu delete")
         return
 
-    def create(self):
+    def createPKM(self):
         #TODO
+        print("main menu create")
         dialog = QDialog(self)
-        pokemonPopup = pokemonPopupEvents(dialog, self.cur)
+        pokemonPopupEvents(dialog, self.cur)
         dialog.show()
-        return
 
     def searchCellClicked(self, row, col):
         item = self.ui.searchResultsTableWidget.item(row, col)
@@ -159,10 +157,10 @@ where (p.PKMN_ID = {pkmn_id})"""
             image.loadFromData(requests.get(url_image).content)
             pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
-            executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[3]['PKMN_ID']})"
+            executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[-1]['PKMN_ID']})"
             self.cur.execute(executeString5)
             lowerName = self.getQuery()
-            url_image = webScraper(lowerName[3]["PKMN_NAME"])
+            url_image = webScraper(lowerName[-1]["PKMN_NAME"])
             image = QImage()
             image.loadFromData(requests.get(url_image).content)
             pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
@@ -180,6 +178,8 @@ where (p.PKMN_ID = {pkmn_id})"""
         pokemonPopup.ui.speedLabel.setText(str(data[0]["STATS_SPEED"]))
         pokemonPopup.ui.totalLabel.setText(str(data[0]["STATS_TOTAL"]))
         pokemonPopup.ui.weightLabel.setText(str(data[0]["PKMN_WEIGHT"]))
+        pokemonPopup.ui.createButton.setEnabled(False)
+        pokemonPopup.ui.createButton.setVisible(False)
 
         if data[0]['PKMN_TYPE1'] != 'NULL':
             pokemonPopup.ui.type1LineEdit.setText(str(data[0]["PKMN_TYPE1"]))
@@ -401,20 +401,20 @@ def initUI(cur):
 
 def initDB():
     try:
-        # conn = mariadb.connect(
-        #     user="root",
-        #     password="1234",
-        #     host="127.0.0.1",
-        #     port=3306,
-        #     database="pokedex"
-        # )
         conn = mariadb.connect(
             user="root",
-            password="Jiddo123",
+            password="1234",
             host="127.0.0.1",
             port=3306,
             database="pokedex"
         )
+        #conn = mariadb.connect(
+        #    user="root",
+        #    password="Jiddo123",
+        #    host="127.0.0.1",
+        #    port=3306,
+        #    database="pokedex"
+        #)
     except mariadb.Error as e:
         print(f"Error connecting to MariaDB Platform: {e}")
         sys.exit(1)
