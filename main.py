@@ -16,82 +16,214 @@ import os
 import mariadb
 import PyQt5
 
-class pokemonPopupEvents(QDialog):
-    def __init__(self, Dialog, cur):
+class mainWindowEvents(QMainWindow):
+    def __init__(self, MainWindow, cur):
         super().__init__()
-        self.ui = pp()
-        self.ui.setupUi(Dialog)
-        self.cur = cur
-        self.ui.createButton.clicked.connect(self.createPokemon)
+        self.ui = mw()
+        self.ui.setupUi(MainWindow)
+        self.cur = cur.cursor()
+        self.conn = cur
+        self.ui.searchResultsTableWidget.verticalHeader().setVisible(False)
+        self.ui.searchResultsTableWidget.horizontalHeader().setVisible(False)
+        self.ui.pushButton.clicked.connect(self.search)
+        self.ui.createButton.clicked.connect(self.create)
+        self.ui.searchResultsTableWidget.cellClicked.connect(self.searchCellClicked)
+        self.ui.deletePokemonButton.setVisible(False)
+        self.ui.updateButton.setVisible(False)
+        self.ui.createPokemonButton.setVisible(False)
+
+        self.ui.createPokemonButton.clicked.connect(self.createPokemon)
         self.ui.updateButton.clicked.connect(self.updatePokemon)
+        self.ui.deletePokemonButton.clicked.connect(self.deletePokemon)
 
     def createPokemon(self):
-        #TODO
-        print("pp create")
+        print("create pokemon")
         isgood = True
-
-        if(self.ui.pokemonNameLabel.text() == "" ):
+        if self.ui.pokemonNameLabel.text() == "" :
             isgood = False
-        if(self.ui.idLabel.text() == ""):
+        if self.ui.idLabel.text() == "":
             isgood = False
-        if (self.ui.attackLabel.text() == ""):
+        if self.ui.attackLabel.text() == "":
             isgood = False
-        if (self.ui.hpLabel.text() == ""):
+        if self.ui.hpLabel.text() == "":
             isgood = False
-        if (self.ui.defenseLabel.text() == ""):
+        if self.ui.defenseLabel.text() == "":
             isgood = False
-        if (self.ui.specialAttackLabel.text() == ""):
+        if self.ui.specialAttackLabel.text() == "":
             isgood = False
-        if (self.ui.specialDefenseLabel.text() == ""):
+        if self.ui.specialDefenseLabel.text() == "":
             isgood = False
-        if (self.ui.speedLabel.text() == ""):
+        if self.ui.speedLabel.text() == "":
             isgood = False
-        if (self.ui.totalLabel.text() == ""):
+        if self.ui.weightLabel.text() == "":
             isgood = False
-        if (self.ui.weightLabel.text() == ""):
+        if self.ui.evolutionIDLabel.text() == "":
             isgood = False
-        if(isgood == False):
+        if self.ui.evolvingIDLabel.text() == "":
+            isgood = False
+        if self.ui.type1LineEdit.text() == "":
+            isgood = False
+        if self.ui.type2LineEdit.text() == "":
+            isgood = False
+        if isgood == False:
             print("error man")
             error_dialog = QtWidgets.QErrorMessage(self)
             error_dialog.showMessage('Fill in every field')
             error_dialog.exec_()
             return
             # Put an error label
-        return
+        self.cur.execute(f"select exists (select * from pokemoninfo where PKMN_ID = {self.ui.idLabel.text()[1:]});")
+        data = self.cur.fetchall()
+        if data[0][0] == 1:
+            print("error man")
+            error_dialog = QtWidgets.QErrorMessage(self)
+            error_dialog.showMessage('ID is already in database')
+            error_dialog.exec_()
+            return
+        
+        self.cur.execute(f"INSERT INTO pokemoninfo (PKMN_ID, PKMN_NAME) VALUES ({self.ui.idLabel.text()[1:]}, \'{self.ui.pokemonNameLabel.text()}\');")
+        self.cur.execute(f"INSERT INTO pokemonweight (PKMN_ID, PKMN_WEIGHT) VALUES({self.ui.idLabel.text()[1:]}, {self.ui.weightLabel.text()});")
+        self.cur.execute(f"INSERT INTO regionfound(PKMN_REGION, PKMN_ID) VALUES(\'{self.ui.regionLineEdit.text()}\',{self.ui.idLabel.text()[1:]});")
+        self.cur.execute(f"INSERT INTO typechart (PKMN_TYPE1, PKMN_TYPE2, PKMN_ID) VALUES (\'{self.ui.type1LineEdit.text()}\',\'{self.ui.type2LineEdit.text()}\',{self.ui.idLabel.text()[1:]});")
+        sHP = int(self.ui.hpLabel.text())
+        sAttack = int(self.ui.attackLabel.text())
+        sDefense = int(self.ui.defenseLabel.text())
+        sSpAttack = int(self.ui.specialAttackLabel.text())
+        sSpDefense = int(self.ui.specialDefenseLabel.text())
+        sSpeed = int(self.ui.speedLabel.text())
+        sTotal = sHP + sAttack + sDefense + sSpAttack + sSpDefense + sSpeed
+        self.cur.execute(f"insert into PokemonStats(PKMN_ID, STATS_TOTAL, STATS_HP, STATS_ATTACK, STATS_DEFENSE, STATS_SP_ATTACK, STATS_SP_DEFENSE, STATS_SPEED) VALUES({self.ui.idLabel.text()[1:]},{sTotal},{sHP},{sAttack},{sDefense},{sSpAttack},{sSpDefense},{sSpeed});")
+        self.cur.execute(f"INSERT INTO Evolutions(PKMN_ID, PKMN_NAME, EVOLUTION_ID, EVOLVING_ID)  VALUES({self.ui.idLabel.text()[1:]},\'{self.ui.pokemonNameLabel.text()}\',{self.ui.evolutionIDLabel.text()},{self.ui.evolvingIDLabel.text()});")
+        self.conn.commit()
+
 
     def updatePokemon(self):
-        #TODO
-        print("pp update")
-        return
+        self.cur.execute(f"select exists (select * from pokemoninfo where PKMN_ID = {self.ui.idLabel.text()[1:]});")
+        data = self.cur.fetchall()
+        if data[0][0] == 0:
+            print("error man")
+            error_dialog = QtWidgets.QErrorMessage(self)
+            error_dialog.showMessage('Use a valid ID to update')
+            error_dialog.exec_()
+            return
+        isgood = True
+        if self.ui.pokemonNameLabel.text() == "" :
+            isgood = False
+        if self.ui.idLabel.text() == "":
+            isgood = False
+        if self.ui.attackLabel.text() == "":
+            isgood = False
+        if self.ui.hpLabel.text() == "":
+            isgood = False
+        if self.ui.defenseLabel.text() == "":
+            isgood = False
+        if self.ui.specialAttackLabel.text() == "":
+            isgood = False
+        if self.ui.specialDefenseLabel.text() == "":
+            isgood = False
+        if self.ui.speedLabel.text() == "":
+            isgood = False
+        if self.ui.weightLabel.text() == "":
+            isgood = False
+        if self.ui.evolutionIDLabel.text() == "":
+            isgood = False
+        if self.ui.evolvingIDLabel.text() == "":
+            isgood = False
+        if self.ui.type1LineEdit.text() == "":
+            isgood = False
+        if self.ui.type2LineEdit.text() == "":
+            isgood = False
+        if isgood == False:
+            print("error man")
+            error_dialog = QtWidgets.QErrorMessage(self)
+            error_dialog.showMessage('Fill in every field')
+            error_dialog.exec_()
+            return
+        self.cur.execute(f"UPDATE pokemonweight SET PKMN_WEIGHT = {self.ui.weightLabel.text()} WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.cur.execute(f"UPDATE regionfound SET PKMN_REGION = \'{self.ui.regionLineEdit.text()}\' WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.cur.execute(f"UPDATE pokemoninfo SET PKMN_NAME = \'{self.ui.pokemonNameLabel.text()}\' WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.cur.execute(f"UPDATE typechart SET PKMN_TYPE1 = \'{self.ui.type1LineEdit.text()}\', PKMN_TYPE2 = \'{self.ui.type2LineEdit.text()}\' WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        sHP = int(self.ui.hpLabel.text())
+        sAttack = int(self.ui.attackLabel.text())
+        sDefense = int(self.ui.defenseLabel.text())
+        sSpAttack = int(self.ui.specialAttackLabel.text())
+        sSpDefense = int(self.ui.specialDefenseLabel.text())
+        sSpeed = int(self.ui.speedLabel.text())
+        sTotal = sHP + sAttack + sDefense + sSpAttack + sSpDefense + sSpeed
+        self.cur.execute(f"UPDATE pokemonstats SET STATS_TOTAL = {sTotal}, STATS_HP = {sHP}, STATS_ATTACK = {sAttack}, STATS_DEFENSE = {sDefense}, STATS_SP_ATTACK = {sSpAttack}, STATS_SP_DEFENSE = {sSpDefense}, STATS_SPEED = {sSpeed} WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        evolv = self.ui.evolvingIDLabel.text()
+        evolu = self.ui.evolutionIDLabel.text()
+        if evolv == "None":
+            evolv = "NULL"
+        if evolu == "None":
+            evolu = "NULL"
+        self.cur.execute(f"UPDATE evolutions SET PKMN_NAME = \'{self.ui.pokemonNameLabel.text()}\', EVOLUTION_ID = {evolu}, EVOLVING_ID = {evolv} WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.conn.commit()
 
+    def deletePokemon(self):
+        if not self.ui.idLabel.text()[1:].isdigit():
+            error_dialog = QtWidgets.QErrorMessage(self)
+            error_dialog.showMessage('Enter an ID to delete')
+            error_dialog.exec_()
+            return
+        self.cur.execute(f"DELETE FROM pokemonweight WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.cur.execute(f"DELETE FROM regionfound WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.cur.execute(f"DELETE FROM pokemonstats WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.cur.execute(f"DELETE FROM typechart WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.cur.execute(f"DELETE FROM evolutions WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.cur.execute(f"DELETE FROM pokemoninfo WHERE PKMN_ID = {self.ui.idLabel.text()[1:]}")
+        self.conn.commit()
+        print("delete pokemon")
+        self.ui.pokemonNameLabel.setText("")
+        self.ui.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
+        self.ui.idLabel.setText("")
+        self.ui.attackLabel.setText("")
+        self.ui.hpLabel.setText("")
+        self.ui.defenseLabel.setText("")
+        self.ui.specialAttackLabel.setText("")
+        self.ui.specialDefenseLabel.setText("")
+        self.ui.speedLabel.setText("")
+        self.ui.totalLabel.setText("")
+        self.ui.weightLabel.setText("")
+        self.ui.createPokemonButton.setVisible(False)
+        self.ui.updateButton.setVisible(False)
+        self.ui.deletePokemonButton.setVisible(False)
+        self.ui.evolvesFromPictureLabel.setPixmap(QPixmap())
+        self.ui.pokemonPictureLabel.setPixmap(QPixmap())
+        self.ui.evolvesToPictureLabel.setPixmap(QPixmap())
+        self.ui.type1LineEdit.setText("")
+        self.ui.type2LineEdit.setText("")
+        self.ui.regionLineEdit.setText("")
+        self.ui.region2LineEdit.setText("")
+        self.ui.evolvingIDLabel.setText("")
+        self.ui.evolutionIDLabel.setText("")
 
-class mainWindowEvents(QMainWindow):
-    def __init__(self, MainWindow, cur):
-        super().__init__()
-        self.ui = mw()
-        self.ui.setupUi(MainWindow)
-        self.cur = cur
-        self.ui.searchResultsTableWidget.verticalHeader().setVisible(False)
-        self.ui.searchResultsTableWidget.horizontalHeader().setVisible(False)
-        self.ui.pushButton.clicked.connect(self.search)
-        self.ui.createButton.clicked.connect(self.createPKM)
-        self.ui.deleteButton.clicked.connect(self.deletePKM)
-        self.ui.searchResultsTableWidget.cellClicked.connect(self.searchCellClicked)
-        self.ui.deleteButton.setVisible(False)
-
-    def deletePKM(self):
-        #TODO
-        print("Main menu delete")
-        return
-
-    def createPKM(self):
-        #TODO
-        print("main menu create")
-        dialog = QDialog(self)
-        pp = pokemonPopupEvents(dialog, self.cur)
-        pp.ui.updateButton.setVisible(False)
-        pp.ui.deletePokemonButton.setVisible(False)
-        dialog.show()
+    def create(self):
+        self.ui.pokemonNameLabel.setText("")
+        self.ui.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
+        self.ui.idLabel.setText("")
+        self.ui.attackLabel.setText("")
+        self.ui.hpLabel.setText("")
+        self.ui.defenseLabel.setText("")
+        self.ui.specialAttackLabel.setText("")
+        self.ui.specialDefenseLabel.setText("")
+        self.ui.speedLabel.setText("")
+        self.ui.totalLabel.setText("")
+        self.ui.weightLabel.setText("")
+        self.ui.createPokemonButton.setEnabled(True)
+        self.ui.createPokemonButton.setVisible(True)
+        self.ui.updateButton.setVisible(False)
+        self.ui.deletePokemonButton.setVisible(False)
+        self.ui.evolvesFromPictureLabel.setPixmap(QPixmap())
+        self.ui.pokemonPictureLabel.setPixmap(QPixmap())
+        self.ui.evolvesToPictureLabel.setPixmap(QPixmap())
+        self.ui.type1LineEdit.setText("")
+        self.ui.type2LineEdit.setText("")
+        self.ui.regionLineEdit.setText("")
+        self.ui.region2LineEdit.setText("")
+        self.ui.evolvingIDLabel.setText("")
+        self.ui.evolutionIDLabel.setText("")
+        
 
     def searchCellClicked(self, row, col):
         item = self.ui.searchResultsTableWidget.item(row, col)
@@ -109,24 +241,20 @@ where (p.PKMN_ID = {pkmn_id})"""
         self.cur.execute(executeString)
         data = self.getQuery()
 
-        dialog = QDialog(self)
-        pokemonPopup = pokemonPopupEvents(dialog, self.cur)
-        dialog.show()
-
         download = str(data[0]["PKMN_NAME"])
         url_image = webScraper(download)
 
         image = QImage()
         image.loadFromData(requests.get(url_image).content)
-        pokemonPopup.ui.pokemonPictureLabel.setAlignment(Qt.AlignCenter)
-        pokemonPopup.ui.pokemonPictureLabel.setPixmap(QPixmap(image))
+        self.ui.pokemonPictureLabel.setAlignment(Qt.AlignCenter)
+        self.ui.pokemonPictureLabel.setPixmap(QPixmap(image))
         executeString2 = f"select EVOLUTION_ID from evolutions where (PKMN_ID = {pkmn_id});"
         self.cur.execute(executeString2)
         evolutions = self.getQuery()
 
         print(evolutions[0]['EVOLUTION_ID']) #can remove when done testing
 
-        if evolutions[0]['EVOLUTION_ID'] is not None:
+        if evolutions[0]['EVOLUTION_ID'] is not None and int(pkmn_id) <= 60:
             executeString3 = f"select PKMN_ID from evolutions where EVOLUTION_ID = {evolutions[0]['EVOLUTION_ID']} order by PKMN_ID"
             self.cur.execute(executeString3)
             order = self.getQuery()
@@ -138,8 +266,8 @@ where (p.PKMN_ID = {pkmn_id})"""
                 url_image = webScraper(download)
                 image = QImage()
                 image.loadFromData(requests.get(url_image).content)
-                pokemonPopup.ui.evolvesToPictureLabel.setAlignment(Qt.AlignCenter)
-                pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
+                self.ui.evolvesToPictureLabel.setAlignment(Qt.AlignCenter)
+                self.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
                 executeString4 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[1]['PKMN_ID']})"
                 self.cur.execute(executeString4)
@@ -147,7 +275,7 @@ where (p.PKMN_ID = {pkmn_id})"""
                 url_image = webScraper(UpperName[0]["PKMN_NAME"])
                 image2 = QImage()
                 image2.loadFromData(requests.get(url_image).content)
-                pokemonPopup.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image2))
+                self.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image2))
 
             elif order[1]['PKMN_ID'] == data[0]["PKMN_ID"]:
                 executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[0]['PKMN_ID']})"
@@ -156,7 +284,7 @@ where (p.PKMN_ID = {pkmn_id})"""
                 url_image = webScraper(lowerName[0]["PKMN_NAME"])
                 image = QImage()
                 image.loadFromData(requests.get(url_image).content)
-                pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
+                self.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
                 executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[2]['PKMN_ID']})"
                 self.cur.execute(executeString5)
@@ -164,15 +292,15 @@ where (p.PKMN_ID = {pkmn_id})"""
                 url_image = webScraper(higherName[0]["PKMN_NAME"])
                 image = QImage()
                 image.loadFromData(requests.get(url_image).content)
-                pokemonPopup.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
+                self.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
             try:
                 if order[2]['PKMN_ID'] == data[0]["PKMN_ID"]:
                     download = "black screen"
                     url_image = webScraper(download)
                     image = QImage()
                     image.loadFromData(requests.get(url_image).content)
-                    pokemonPopup.ui.evolvesFromPictureLabel.setAlignment(Qt.AlignCenter)
-                    pokemonPopup.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
+                    self.ui.evolvesFromPictureLabel.setAlignment(Qt.AlignCenter)
+                    self.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
 
                     executeString7 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[1]['PKMN_ID']})"
                     self.cur.execute(executeString7)
@@ -180,31 +308,35 @@ where (p.PKMN_ID = {pkmn_id})"""
                     url_image = webScraper(middle[0]["PKMN_NAME"])
                     image = QImage()
                     image.loadFromData(requests.get(url_image).content)
-                    pokemonPopup.ui.evolvesToPictureLabel.setAlignment(Qt.AlignCenter)
-                    pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
+                    self.ui.evolvesToPictureLabel.setAlignment(Qt.AlignCenter)
+                    self.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
             except:
                 print("Error for the big pokemon")
 
-        pokemonPopup.ui.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
-        pokemonPopup.ui.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
-        pokemonPopup.ui.idLabel.setText("#" + str(data[0]["PKMN_ID"]))
-        pokemonPopup.ui.attackLabel.setText(str(data[0]["STATS_ATTACK"]))
-        pokemonPopup.ui.hpLabel.setText(str(data[0]["STATS_HP"]))
-        pokemonPopup.ui.defenseLabel.setText(str(data[0]["STATS_DEFENSE"]))
-        pokemonPopup.ui.specialAttackLabel.setText(str(data[0]["STATS_SP_ATTACK"]))
-        pokemonPopup.ui.specialDefenseLabel.setText(str(data[0]["STATS_SP_DEFENSE"]))
-        pokemonPopup.ui.speedLabel.setText(str(data[0]["STATS_SPEED"]))
-        pokemonPopup.ui.totalLabel.setText(str(data[0]["STATS_TOTAL"]))
-        pokemonPopup.ui.weightLabel.setText(str(data[0]["PKMN_WEIGHT"]))
-        pokemonPopup.ui.createButton.setEnabled(False)
-        pokemonPopup.ui.createButton.setVisible(False)
+        self.ui.createPokemonButton.setVisible(False)
+        self.ui.updateButton.setVisible(True)
+        self.ui.deletePokemonButton.setVisible(True)
+
+        self.ui.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
+        self.ui.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
+        self.ui.idLabel.setText("#" + str(data[0]["PKMN_ID"]))
+        self.ui.attackLabel.setText(str(data[0]["STATS_ATTACK"]))
+        self.ui.hpLabel.setText(str(data[0]["STATS_HP"]))
+        self.ui.defenseLabel.setText(str(data[0]["STATS_DEFENSE"]))
+        self.ui.specialAttackLabel.setText(str(data[0]["STATS_SP_ATTACK"]))
+        self.ui.specialDefenseLabel.setText(str(data[0]["STATS_SP_DEFENSE"]))
+        self.ui.speedLabel.setText(str(data[0]["STATS_SPEED"]))
+        self.ui.totalLabel.setText(str(data[0]["STATS_TOTAL"]))
+        self.ui.weightLabel.setText(str(data[0]["PKMN_WEIGHT"]))
+        self.ui.evolutionIDLabel.setText(str(data[0]["EVOLUTION_ID"]))
+        self.ui.evolvingIDLabel.setText(str(data[0]["EVOLVING_ID"]))
 
         if data[0]['PKMN_TYPE1'] != 'NULL':
-            pokemonPopup.ui.type1LineEdit.setText(str(data[0]["PKMN_TYPE1"]))
+            self.ui.type1LineEdit.setText(str(data[0]["PKMN_TYPE1"]))
         if data[0]['PKMN_TYPE2'] != 'NULL':
-            pokemonPopup.ui.type2LineEdit.setText(str(data[0]['PKMN_TYPE2']))
-        pokemonPopup.ui.regionLineEdit.setText(str(data[0]['PKMN_REGION']))
+            self.ui.type2LineEdit.setText(str(data[0]['PKMN_TYPE2']))
+        self.ui.regionLineEdit.setText(str(data[0]['PKMN_REGION']))
 
     def search(self):
         #print("search")
@@ -260,7 +392,7 @@ and {regionCondition}"""
     #     print("random")
 
     def getQuery(self):
-        row_headers=[x[0] for x in cur.description]
+        row_headers=[x[0] for x in self.cur.description]
         rv = self.cur.fetchall()
         json_data = []
         for result in rv:
@@ -437,7 +569,7 @@ def initDB():
     except mariadb.Error as e:
         print(f"Error connecting to MariaDB Platform: {e}")
         sys.exit(1)
-    return conn.cursor()
+    return conn
 
 if __name__ == '__main__':
     cur = initDB()
