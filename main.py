@@ -131,43 +131,59 @@ where (p.PKMN_ID = {pkmn_id})"""
             order = self.getQuery()
             print(order) #Can remove when done testing
 
-        #print(order[0]["PKMN_ID"])
-        #print(data[0]["PKMN_ID"])
 
-        if order[0]['PKMN_ID'] == data[0]["PKMN_ID"]:
-            download = "black screen"
-            url_image = webScraper(download)
-            image = QImage()
-            image.loadFromData(requests.get(url_image).content)
-            pokemonPopup.ui.evolvesToPictureLabel.setAlignment(Qt.AlignCenter)
-            pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
+            if order[0]['PKMN_ID'] == data[0]["PKMN_ID"]:
+                download = "black screen"
+                url_image = webScraper(download)
+                image = QImage()
+                image.loadFromData(requests.get(url_image).content)
+                pokemonPopup.ui.evolvesToPictureLabel.setAlignment(Qt.AlignCenter)
+                pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
-            executeString4 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[1]['PKMN_ID']})"
-            self.cur.execute(executeString4)
-            UpperName = self.getQuery()
-            url_image = webScraper(UpperName[0]["PKMN_NAME"])
-            image2 = QImage()
-            image2.loadFromData(requests.get(url_image).content)
-            pokemonPopup.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image2))
+                executeString4 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[1]['PKMN_ID']})"
+                self.cur.execute(executeString4)
+                UpperName = self.getQuery()
+                url_image = webScraper(UpperName[0]["PKMN_NAME"])
+                image2 = QImage()
+                image2.loadFromData(requests.get(url_image).content)
+                pokemonPopup.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image2))
 
-        elif order[1]['PKMN_ID'] == data[0]["PKMN_ID"]:
-            executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[0]['PKMN_ID']})"
-            self.cur.execute(executeString5)
-            lowerName = self.getQuery()
-            url_image = webScraper(lowerName[0]["PKMN_NAME"])
-            image = QImage()
-            image.loadFromData(requests.get(url_image).content)
-            pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
+            elif order[1]['PKMN_ID'] == data[0]["PKMN_ID"]:
+                executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[0]['PKMN_ID']})"
+                self.cur.execute(executeString5)
+                lowerName = self.getQuery()
+                url_image = webScraper(lowerName[0]["PKMN_NAME"])
+                image = QImage()
+                image.loadFromData(requests.get(url_image).content)
+                pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
-            executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[2]['PKMN_ID']})"
-            self.cur.execute(executeString5)
-            higherName = self.getQuery()
-            url_image = webScraper(higherName[0]["PKMN_NAME"])
-            image = QImage()
-            image.loadFromData(requests.get(url_image).content)
-            pokemonPopup.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
+                executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[2]['PKMN_ID']})"
+                self.cur.execute(executeString5)
+                higherName = self.getQuery()
+                url_image = webScraper(higherName[0]["PKMN_NAME"])
+                image = QImage()
+                image.loadFromData(requests.get(url_image).content)
+                pokemonPopup.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
+            try:
+                if order[2]['PKMN_ID'] == data[0]["PKMN_ID"]:
+                    download = "black screen"
+                    url_image = webScraper(download)
+                    image = QImage()
+                    image.loadFromData(requests.get(url_image).content)
+                    pokemonPopup.ui.evolvesFromPictureLabel.setAlignment(Qt.AlignCenter)
+                    pokemonPopup.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
 
+                    executeString7 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[1]['PKMN_ID']})"
+                    self.cur.execute(executeString7)
+                    middle = self.getQuery()
+                    url_image = webScraper(middle[0]["PKMN_NAME"])
+                    image = QImage()
+                    image.loadFromData(requests.get(url_image).content)
+                    pokemonPopup.ui.evolvesToPictureLabel.setAlignment(Qt.AlignCenter)
+                    pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
+            except:
+                print("Error for the big pokemon")
 
         pokemonPopup.ui.pokemonNameLabel.setText(str(data[0]["PKMN_NAME"]))
         pokemonPopup.ui.pokemonNameLabel.setFont(QFont('MS Shell Dlg 2', 16))
