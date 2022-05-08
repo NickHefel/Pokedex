@@ -131,8 +131,8 @@ where (p.PKMN_ID = {pkmn_id})"""
             order = self.getQuery()
             print(order) #Can remove when done testing
 
-        print(order[0]["PKMN_ID"])
-        print(data[0]["PKMN_ID"])
+        #print(order[0]["PKMN_ID"])
+        #print(data[0]["PKMN_ID"])
 
         if order[0]['PKMN_ID'] == data[0]["PKMN_ID"]:
             download = "black screen"
@@ -159,13 +159,13 @@ where (p.PKMN_ID = {pkmn_id})"""
             image.loadFromData(requests.get(url_image).content)
             pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
-            executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[3]['PKMN_ID']})"
+            executeString5 = f"select PKMN_NAME from pokemoninfo where (PKMN_ID = {order[2]['PKMN_ID']})"
             self.cur.execute(executeString5)
-            lowerName = self.getQuery()
-            url_image = webScraper(lowerName[3]["PKMN_NAME"])
+            higherName = self.getQuery()
+            url_image = webScraper(higherName[0]["PKMN_NAME"])
             image = QImage()
             image.loadFromData(requests.get(url_image).content)
-            pokemonPopup.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
+            pokemonPopup.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
 
 
 
