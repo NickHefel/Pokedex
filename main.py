@@ -20,8 +20,11 @@ class pokemonPopupEvents(QDialog):
         self.ui = pp()
         self.ui.setupUi(Dialog)
         self.cur = cur
-        self.ui.createButton.clicked.connect(self.create)
+        #self.ui.createButton.clicked.connect(self.pokemonCreate())
         self.ui.updateButton.clicked.connect(self.update)
+
+    def pokemonCreate(self):
+        print("Did this shit work?")
 
     def create(self):
         #TODO
