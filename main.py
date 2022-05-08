@@ -320,7 +320,12 @@ where (p.PKMN_ID = {pkmn_id})"""
             except:
                 print("Error for the big pokemon")
         else:
-
+            download = "black screen"
+            url_image = webScraper(download)
+            image = QImage()
+            image.loadFromData(requests.get(url_image).content)
+            self.ui.evolvesFromPictureLabel.setPixmap(QPixmap(image))
+            self.ui.evolvesToPictureLabel.setPixmap(QPixmap(image))
 
         self.ui.createPokemonButton.setVisible(False)
         self.ui.updateButton.setVisible(True)
