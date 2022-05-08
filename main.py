@@ -24,6 +24,10 @@ class pokemonPopupEvents(QDialog):
         self.cur = cur
         self.ui.createButton.clicked.connect(self.createPokemon)
         self.ui.updateButton.clicked.connect(self.updatePokemon)
+        self.ui.deletePokemonButton.clicked.connect(self.deletePokemon)
+
+    def deletePokemon(self):
+        print("detel button pressed")
 
     def createPokemon(self):
         #TODO
