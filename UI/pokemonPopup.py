@@ -79,7 +79,7 @@ class Ui_Dialog(object):
         self.label_10.setGeometry(QtCore.QRect(20, 270, 91, 16))
         self.label_10.setObjectName("label_10")
         self.pokemonPictureLabel = QtWidgets.QLabel(Dialog)
-        self.pokemonPictureLabel.setGeometry(QtCore.QRect(190, 70, 191, 171))
+        self.pokemonPictureLabel.setGeometry(QtCore.QRect(190, 80, 191, 171))
         self.pokemonPictureLabel.setFrameShape(QtWidgets.QFrame.Box)
         self.pokemonPictureLabel.setObjectName("pokemonPictureLabel")
         self.label_12 = QtWidgets.QLabel(Dialog)
@@ -126,6 +126,9 @@ class Ui_Dialog(object):
         self.label_15 = QtWidgets.QLabel(Dialog)
         self.label_15.setGeometry(QtCore.QRect(130, 40, 21, 16))
         self.label_15.setObjectName("label_15")
+        self.deletePokemonButton = QtWidgets.QPushButton(Dialog)
+        self.deletePokemonButton.setGeometry(QtCore.QRect(300, 40, 91, 31))
+        self.deletePokemonButton.setObjectName("deletePokemonButton")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -153,6 +156,7 @@ class Ui_Dialog(object):
         self.updateButton.setText(_translate("Dialog", "Update"))
         self.label_14.setText(_translate("Dialog", "Name:"))
         self.label_15.setText(_translate("Dialog", "ID:"))
+        self.deletePokemonButton.setText(_translate("Dialog", "Delete"))
 
 
 if __name__ == "__main__":

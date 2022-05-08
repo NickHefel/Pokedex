@@ -77,6 +77,7 @@ class mainWindowEvents(QMainWindow):
         self.ui.createButton.clicked.connect(self.createPKM)
         self.ui.deleteButton.clicked.connect(self.deletePKM)
         self.ui.searchResultsTableWidget.cellClicked.connect(self.searchCellClicked)
+        self.ui.deleteButton.setVisible(False)
 
     def deletePKM(self):
         #TODO
@@ -87,7 +88,9 @@ class mainWindowEvents(QMainWindow):
         #TODO
         print("main menu create")
         dialog = QDialog(self)
-        pokemonPopupEvents(dialog, self.cur)
+        pp = pokemonPopupEvents(dialog, self.cur)
+        pp.ui.updateButton.setVisible(False)
+        pp.ui.deletePokemonButton.setVisible(False)
         dialog.show()
 
     def searchCellClicked(self, row, col):
